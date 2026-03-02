@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "generate:icons": "node scripts/generate-pwa-icons.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

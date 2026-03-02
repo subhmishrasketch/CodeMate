@@ -1,6 +1,7 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "next-themes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
@@ -19,6 +20,7 @@ import Profile from "./pages/Profile";
 import Help from "./pages/Help";
 import Analytics from "./pages/Analytics";
 import NotFound from "./pages/NotFound";
+import Signup from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +33,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Index />} />
+    <Route path="/signup" element={<Signup />} />
     <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
     <Route path="/smart-matching" element={<ProtectedRoute><SmartMatching /></ProtectedRoute>} />
     <Route path="/revival-hub" element={<ProtectedRoute><RevivalHub /></ProtectedRoute>} />
@@ -49,17 +52,19 @@ const AppRoutes = () => (
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <AuthProvider>
-        <NotificationProvider>
-          <BrowserRouter>
-            <AppRoutes />
-          </BrowserRouter>
-        </NotificationProvider>
-      </AuthProvider>
-    </TooltipProvider>
+    <ThemeProvider attribute="class" defaultTheme="system">
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <AuthProvider>
+          <NotificationProvider>
+            <BrowserRouter>
+              <AppRoutes />
+            </BrowserRouter>
+          </NotificationProvider>
+        </AuthProvider>
+      </TooltipProvider>
+    </ThemeProvider>
   </QueryClientProvider>
 );
 

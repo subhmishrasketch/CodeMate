@@ -207,22 +207,22 @@ const AdminDashboard = () => {
           <Activity className="h-5 w-5 text-success" /> Key Insights & Metrics
         </h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-lg bg-white/50 dark:bg-black/50 p-4">
+          <div className="rounded-lg bg-card/50 dark:bg-card/30 p-4">
             <p className="text-xs font-semibold text-muted-foreground mb-1">Average Team Size</p>
             <p className="text-2xl font-bold">4.2 members</p>
             <p className="text-xs text-muted-foreground mt-1">+0.3 vs last semester</p>
           </div>
-          <div className="rounded-lg bg-white/50 dark:bg-black/50 p-4">
+          <div className="rounded-lg bg-card/50 dark:bg-card/30 p-4">
             <p className="text-xs font-semibold text-muted-foreground mb-1">Project Success Rate</p>
             <p className="text-2xl font-bold text-success">84%</p>
             <p className="text-xs text-muted-foreground mt-1">Completed on schedule</p>
           </div>
-          <div className="rounded-lg bg-white/50 dark:bg-black/50 p-4">
+          <div className="rounded-lg bg-card/50 dark:bg-card/30 p-4">
             <p className="text-xs font-semibold text-muted-foreground mb-1">Student Engagement</p>
             <p className="text-2xl font-bold text-primary">92%</p>
             <p className="text-xs text-muted-foreground mt-1">Active participation</p>
           </div>
-          <div className="rounded-lg bg-white/50 dark:bg-black/50 p-4">
+          <div className="rounded-lg bg-card/50 dark:bg-card/30 p-4">
             <p className="text-xs font-semibold text-muted-foreground mb-1">Collaboration Score</p>
             <p className="text-2xl font-bold">8.7/10</p>
             <p className="text-xs text-muted-foreground mt-1">Team effectiveness</p>

@@ -4,6 +4,41 @@
 
 CodeMate is a collaborative platform designed to help students find their perfect teammates, collaborate on innovative projects, and build something amazing together. Whether you're looking for teammates with specific skills, reviving abandoned ideas, or tracking your contributions through a competitive leaderboard, CodeMate makes it all seamless.
 
+> **Tip:** if you install the app or create a desktop shortcut and the icon looks fuzzy, make sure you have proper PWA/app icons. Run `npm run generate:icons` to produce 192×192 and 512×512 PNGs from the source logo and rebuild – these higher‑resolution files prevent the launcher from scaling up the tiny favicon.
+
+
+## Authentication flow
+
+## Theme & colors
+
+The app now features a fresh teal/purple color palette with warm accents. Light
+mode is the default, but you can toggle between light and dark themes using
+the sun/moon button in the header (or on the login/signup screens before you
+sign in). The colour variables are defined in `src/index.css` and automatically
+apply across all pages; dark mode overrides are provided as well.
+
+
+The app now supports a full sign‑up page (`/signup`) where users can enter their
+name, email, password, department, skills, and other profile details. The login
+screen displays a link to "Sign up" and will redirect you to the dashboard once
+authenticated.
+
+For demo/testing purposes there is a **demo mode** toggle on both login and
+signup pages. When enabled the email/password fields are ignored and the
+application simply signs in as a pre‑configured student or admin user. Toggle it
+off to use real credentials; the underlying auth methods are stubbed but ready
+for you to plug in a backend call.
+
+The UI has received some finishing touches:
+
+* Gradient backgrounds, animated blobs and glass cards on auth screens.
+* A sticky header and collapsible sidebar wrap all protected pages via
+  `DashboardLayout`.
+* Components throughout (badges, cards, inputs) now use the updated palette.
+* Dark mode support with a theme switcher is built in.
+* Layout container provides consistent spacing on dashboard and inner pages.
+
+
 ---
 #Deployed Link:
 https://codemate1609.netlify.app/

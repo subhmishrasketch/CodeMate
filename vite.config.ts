@@ -18,7 +18,14 @@ export default defineConfig(({ mode }) => ({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.svg", "robots.txt"],
+      // make sure the generated icons are included in the build output
+      includeAssets: [
+        "favicon.svg",
+        "robots.txt",
+        "icons/icon-192x192.png",
+        "icons/icon-512x512.png",
+        "icons/apple-touch-icon.png"
+      ],
       manifest: {
         name: "CodeMate",
         short_name: "CodeMate",
@@ -33,7 +40,16 @@ export default defineConfig(({ mode }) => ({
             sizes: "any",
             type: "image/svg+xml"
           },
-          // fallback raster icons (you can replace with your own PNGs)
+          {
+            src: "icons/icon-192x192.png",
+            sizes: "192x192",
+            type: "image/png"
+          },
+          {
+            src: "icons/icon-512x512.png",
+            sizes: "512x512",
+            type: "image/png"
+          },
           {
             src: "favicon.ico",
             sizes: "32x32",

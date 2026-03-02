@@ -6,25 +6,26 @@
 
 @layer base {
   :root {
-    --background: 225 20% 96%;
-    --foreground: 230 25% 12%;
+    /* light theme colors (new teal/purple palette) */
+    --background: 210 16% 95%;      /* slightly darker for contrast */
+    --foreground: 220 15% 15%;      /* darker text for readability */
 
     --card: 0 0% 100%;
-    --card-foreground: 230 25% 12%;
+    --card-foreground: 220 15% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 230 25% 12%;
+    --popover-foreground: 220 15% 15%;
 
-    --primary: 252 75% 60%;
+    --primary: 180 70% 50%;        /* teal */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 225 20% 93%;
-    --secondary-foreground: 230 25% 12%;
+    --secondary: 300 60% 60%;      /* purple */
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 225 15% 92%;
-    --muted-foreground: 225 10% 50%;
+    --muted: 210 25% 85%;          /* darker muted background */
+    --muted-foreground: 210 20% 50%;
 
-    --accent: 252 75% 60%;
+    --accent: 30 80% 55%;          /* warm accent */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 55%;
@@ -36,24 +37,68 @@
     --warning: 38 92% 55%;
     --warning-foreground: 0 0% 100%;
 
-    --border: 225 15% 90%;
-    --input: 225 15% 90%;
-    --ring: 252 75% 60%;
+    --border: 210 20% 75%;       /* darker border for inputs/cards */
+    --input: 210 20% 75%;
+    --ring: 180 70% 50%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 230 30% 14%;
-    --sidebar-foreground: 225 15% 75%;
-    --sidebar-primary: 252 75% 60%;
+    --sidebar-background: 220 10% 95%;
+    --sidebar-foreground: 220 15% 20%;
+    --sidebar-primary: 180 70% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 230 25% 20%;
+    --sidebar-accent: 300 40% 80%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 230 20% 22%;
-    --sidebar-ring: 252 75% 60%;
-    --sidebar-label: 252 75% 60%;
+    --sidebar-border: 210 15% 80%;
+    --sidebar-ring: 180 70% 50%;
+    --sidebar-label: 180 70% 50%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(252 75% 60%), hsl(220 85% 55%));
-    --gradient-cta: linear-gradient(135deg, hsl(220 85% 55%), hsl(280 70% 60%));
+    --gradient-primary: linear-gradient(135deg, hsl(180 70% 50%), hsl(300 60% 60%));
+    --gradient-cta: linear-gradient(135deg, hsl(300 60% 60%), hsl(30 80% 55%));
+    --gradient-login: linear-gradient(160deg, hsl(220 85% 55%), hsl(270 70% 50%));
+  }
+
+  /* dark mode overrides */
+  .dark {
+    --background: 220 10% 12%;
+    /* login gradient slightly lighter than background so card still pops */
+    --gradient-login: linear-gradient(160deg, hsl(220 40% 35%), hsl(270 40% 30%));
+    --foreground: 220 15% 88%;
+
+    --card: 220 10% 18%;
+    --card-foreground: 220 15% 88%;
+
+    --popover: 220 10% 18%;
+    --popover-foreground: 220 15% 88%;
+
+    --primary: 180 70% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 300 60% 70%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 10% 20%;
+    --muted-foreground: 220 15% 60%;
+
+    --accent: 30 80% 65%;
+    --accent-foreground: 0 0% 100%;
+
+    --border: 220 10% 30%;
+    --input: 220 10% 30%;
+    --ring: 180 70% 60%;
+
+    --sidebar-background: 220 10% 10%;
+    --sidebar-foreground: 220 15% 80%;
+    --sidebar-primary: 180 70% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 300 50% 80%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 10% 25%;
+    --sidebar-ring: 180 70% 60%;
+    --sidebar-label: 180 70% 60%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(180 70% 60%), hsl(300 60% 70%));
+    --gradient-cta: linear-gradient(135deg, hsl(300 60% 70%), hsl(30 80% 65%));
   }
 }
 
@@ -68,21 +113,24 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
   }
+  .glass {
+    @apply bg-card/10 backdrop-blur-md border border-card/20;
+  }
 }
 
 @layer utilities {
   /* Gradients */
   .gradient-primary {
-    background: linear-gradient(135deg, hsl(252 75% 60%), hsl(220 85% 55%));
+    background: var(--gradient-primary);
   }
   .gradient-cta {
-    background: linear-gradient(135deg, hsl(220 85% 55%), hsl(280 70% 60%));
+    background: var(--gradient-cta);
   }
   .gradient-login {
-    background: linear-gradient(160deg, hsl(220 85% 55%), hsl(270 70% 50%));
+    background: var(--gradient-login);
   }
   .text-gradient {
-    background: linear-gradient(135deg, hsl(252 75% 60%), hsl(220 85% 55%));
+    background: var(--gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -176,12 +224,11 @@
 
   /* Glass effect */
   .glass {
-    @apply bg-white/10 backdrop-blur-md border border-white/20;
+    @apply bg-card/10 backdrop-blur-md border border-card/20;
   }
 
   .glass-dark {
-    @apply bg-black/10 backdrop-blur-md border border-black/20;
-
+    @apply bg-card/20 backdrop-blur-md border border-card/30;
   }
 
 }

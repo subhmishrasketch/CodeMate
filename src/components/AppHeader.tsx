@@ -1,5 +1,6 @@
-import { Bell, Search, User, LogOut, Settings, X } from "lucide-react";
+import { Bell, Search, User, LogOut, Settings, X, Sun, Moon } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useTheme } from "next-themes";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNotifications } from "@/contexts/NotificationContext";
 import { useState, useRef, useEffect } from "react";
@@ -27,6 +28,7 @@ const SEARCHABLE = [
 
 export function AppHeader() {
   const { user, logout } = useAuth();
+  const { theme, setTheme } = useTheme();
   const { notifications, unreadCount, markAsRead, markAllRead } = useNotifications();
   const [showNotifs, setShowNotifs] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -141,6 +143,12 @@ export function AppHeader() {
             )}
           </AnimatePresence>
         </div>
+
+        {/* Theme switch */}
+        <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted transition-colors">
+          {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        </button>
 
         {/* Profile */}
         <div ref={profileRef} className="relative">
