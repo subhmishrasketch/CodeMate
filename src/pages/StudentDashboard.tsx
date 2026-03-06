@@ -193,6 +193,24 @@ const StudentDashboard = () => {
     setSelectedProject(null);
   };
 
+  // keep the stats tiles in sync when the list of pending requests changes
+  useEffect(() => {
+    setRealStats(prev => {
+      const updated = [...prev];
+      // active projects sub was already set earlier, only update request-related fields
+      updated[0] = {
+        ...updated[0],
+        sub: `${teamRequests.length} pending requests`
+      };
+      updated[1] = {
+        ...updated[1],
+        value: teamRequests.length.toString(),
+        sub: `${teamRequests.length > 0 ? teamRequests.length : 'No'} pending`
+      };
+      return updated;
+    });
+  }, [teamRequests]);
+
   const openProfile = (author: string) => {
     setSelectedProfile(userProfiles[author] ? { name: author, ...userProfiles[author] } : null);
   };
@@ -743,7 +761,28 @@ const StudentDashboard = () => {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => {
+                                      // remove the request from the local state so it disappears immediately
+                                      setTeamRequests(prev => prev.filter(r => r.email !== request.email || r.projectTitle !== request.projectTitle));
                                       toast.success(`${request.name} has been added to ${request.projectTitle}! 🎉`);
+
+                                      // persist change to localStorage so the request is gone on refresh too
+                                      const postedKey = "postedProjects";
+                                      const posted = localStorage.getItem(postedKey);
+                                      if (posted) {
+                                        const updated = JSON.parse(posted).map((proj: any) => {
+                                          if (proj.title === request.projectTitle) {
+                                            proj.acceptedMembers = [
+                                              ...(proj.acceptedMembers || []),
+                                              { name: request.name, email: request.email }
+                                            ];
+                                            proj.joinRequests = (proj.joinRequests || []).filter(
+                                              (jr: any) => jr.email !== request.email
+                                            );
+                                          }
+                                          return proj;
+                                        });
+                                        localStorage.setItem(postedKey, JSON.stringify(updated));
+                                      }
                                     }}
                                     className="flex-1 px-3 py-1.5 text-xs bg-success text-white rounded-lg hover:bg-success/90 transition-colors font-medium">
                                     ✓ Accept
@@ -752,7 +791,23 @@ const StudentDashboard = () => {
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={() => {
+                                      // remove request locally so it doesn't show up without refresh
+                                      setTeamRequests(prev => prev.filter(r => r.email !== request.email || r.projectTitle !== request.projectTitle));
                                       toast.success(`Request from ${request.name} declined.`);
+
+                                      const postedKey = "postedProjects";
+                                      const posted = localStorage.getItem(postedKey);
+                                      if (posted) {
+                                        const updated = JSON.parse(posted).map((proj: any) => {
+                                          if (proj.title === request.projectTitle) {
+                                            proj.joinRequests = (proj.joinRequests || []).filter(
+                                              (jr: any) => jr.email !== request.email
+                                            );
+                                          }
+                                          return proj;
+                                        });
+                                        localStorage.setItem(postedKey, JSON.stringify(updated));
+                                      }
                                     }}
                                     className="flex-1 px-3 py-1.5 text-xs bg-muted text-foreground rounded-lg hover:bg-muted/80 transition-colors font-medium border border-border">
                                     ✕ Decline
