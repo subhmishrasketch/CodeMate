@@ -134,6 +134,32 @@ const MyProjects = () => {
     }
   }, [user]);
 
+  // reload all project-related state from localStorage (mirrors logic in useEffect)
+  const refreshProjects = () => {
+    try {
+      const postedKey = "postedProjects";
+      const posted = localStorage.getItem(postedKey);
+      const postedProjects = posted ? JSON.parse(posted) : [];
+
+      const myPosted = postedProjects.filter((p: any) => p.owner?.email === user?.email);
+      const joined = postedProjects.filter((p: any) =>
+        p.acceptedMembers?.some((m: any) => m.email === user?.email)
+      );
+      const recommended = postedProjects.filter((p: any) =>
+        p.owner?.email !== user?.email &&
+        !p.acceptedMembers?.some((m: any) => m.email === user?.email) &&
+        !p.joinRequests?.some((r: any) => r.email === user?.email)
+      );
+
+      setMyPostedProjects(myPosted.length > 0 ? myPosted : postedProjects);
+      setJoinedProjects(joined);
+      setRecommendedProjects(recommended.length > 0 ? recommended : []);
+      setAllProjects([...postedProjects, ...defaultProjects]);
+    } catch (err) {
+      console.error("Error refreshing projects:", err);
+    }
+  };
+
   const deleteProject = (title: string) => {
     setAllProjects(allProjects.filter(p => p.title !== title));
     try {
@@ -148,6 +174,7 @@ const MyProjects = () => {
     }
     setSelectedProject(null);
     setModalMode(null);
+    refreshProjects();
   };
 
   const shareProject = () => {
@@ -247,6 +274,8 @@ const MyProjects = () => {
         localStorage.setItem(postedKey, JSON.stringify(postedProjects));
         setSelectedProject(postedProjects[updateIdx]);
         toast.success(`✓ ${request.name} accepted!`);
+        // refresh overall lists so counts update everywhere
+        refreshProjects();
       }
     } catch (err) {
       console.error("Error accepting:", err);
@@ -289,6 +318,7 @@ const MyProjects = () => {
         localStorage.setItem(postedKey, JSON.stringify(postedProjects));
         setSelectedProject(postedProjects[updateIdx]);
         toast.success("Member removed from project");
+        refreshProjects();
       }
     } catch (err) {
       console.error("Error removing member:", err);
@@ -335,6 +365,8 @@ const MyProjects = () => {
         localStorage.setItem(postedKey, JSON.stringify(postedProjects));
         setSelectedProject(postedProjects[updateIdx]);
         toast.success(`${member.name} has been added to the project`);
+        // rebuild state arrays so that counts in recommended/my lists reflect change
+        refreshProjects();
       }
     } catch (err) {
       console.error("Error adding member:", err);

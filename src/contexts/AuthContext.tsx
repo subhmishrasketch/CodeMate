@@ -226,7 +226,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const updateProfile = (data: Partial<User>) =>
-    setUser((prev) => (prev ? { ...prev, ...data } : null));
+    setUser((prev) => {
+      if (!prev) return null;
+      const updated = { ...prev, ...data };
+      try {
+        localStorage.setItem("currentUser", JSON.stringify(updated));
+      } catch (e) {
+        console.warn("Unable to persist user profile to localStorage", e);
+      }
+      return updated;
+    });
 
   return (
     <AuthContext.Provider
